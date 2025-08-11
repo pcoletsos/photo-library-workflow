@@ -9,16 +9,8 @@
 .NOTES
     - MODE: Safe Mode (-WhatIf is enabled). No changes will be made.
     - CONVENTION: Uses parentheses `()` instead of square brackets `[]`.
-    - CULTURE: Configured for Greek (el-GR) date formats.
     - LOCATION: Intended to be run from the parent folder.
 #>
-
-# Create a Shell Application object to access extended file properties.
-$shell = New-Object -ComObject Shell.Application
-# Cache for namespace objects to improve performance.
-$namespaceCache = @{}
-# Define the specific culture for parsing dates. 'el-GR' is for Greek.
-$cultureInfo = [System.Globalization.CultureInfo]::new('el-GR')
 
 # Get the directory where the script is located.
 $parentFolder = $PSScriptRoot
@@ -75,10 +67,5 @@ Get-ChildItem -Path $parentFolder -Directory | ForEach-Object {
         Rename-Item -LiteralPath $folder.FullName -NewName $newName -WhatIf
     }
 }
-
-# Clean up the COM object.
-[System.Runtime.InteropServices.Marshal]::ReleaseComObject($shell) | Out-Null
-Remove-Variable shell
-$namespaceCache.Clear()
 
 Write-Host "Script finished." -ForegroundColor Cyan
